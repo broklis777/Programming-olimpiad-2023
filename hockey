@@ -1,0 +1,93 @@
+import operator
+ievades_piemers = """ 
+5
+0
+11
+111
+0110
+"""
+
+
+def ievade(ievadiitas_liinijas):
+    visa_informacija = {}
+    saraksts_ar_ievadiitajiem_datiem_splitotiem = ievadiitas_liinijas.split()
+    rindu_un_kollonu_skaits = int(
+        saraksts_ar_ievadiitajiem_datiem_splitotiem[0])
+    saraksts_ar_ievadiitajiem_datiem_splitotiem.pop(0)
+    # Pieraksta visus speeleetaajus, kas piedaliijas
+    for speletajs in range(rindu_un_kollonu_skaits):
+        ipasais_key = {f"{speletajs + 1}": []}
+        visa_informacija.update(ipasais_key)
+    # noteikti nav labaikais veids bet vismaz stradas
+    # Izveido sarakstu ar xiniem
+    saraksts_ar_x = ["x"]
+    for u in saraksts_ar_ievadiitajiem_datiem_splitotiem:
+        saraksts_ar_x.append(u + "x")
+    # izveido sarakstu ar otru pusi respektiivi 2d grafiks ir gatavs
+    kopija_originalajiem_datiem = saraksts_ar_ievadiitajiem_datiem_splitotiem
+    kopija_originalajiem_datiem.insert(0, '')
+    for m in visa_informacija:
+        otra_pussiite = ""
+        for n in saraksts_ar_x[list(visa_informacija).index(m)]:
+            visa_informacija[m].append(n)
+        otra_pussiite = kopija_originalajiem_datiem[len(
+            kopija_originalajiem_datiem) - 1 - visa_informacija[m].index("x")]
+        for o in switch0to1and1to0(otra_pussiite):
+            visa_informacija[m].append(o)
+    # LETS GOOOO PAGIADAM IET LABI
+    # tagad izveidosim secibas sarakstu kur no viss lielakajiem uzveretajiem liidz viss lielakajiem zaudetajiem ir sarindots kada seciba meklesim iespeejas pectam
+    punktu_daudzums = {}
+    for r in visa_informacija:
+        punkti = 0
+        for t in visa_informacija[r]:
+            if t == "1":
+                punkti += 1
+            punktu_update = {f"{r}": punkti}
+            punktu_daudzums.update(punktu_update)
+    sorted_dict = dict(sorted(punktu_daudzums.items(),
+                       key=operator.itemgetter(1), reverse=True))
+    print(visa_informacija, sorted_dict)
+    # Ir izveidots viss, tiek atrasta visa karte no ievades plus vel sarindots kaadaa seciiba vajag minet variantus
+    # Tas kas ir jaizdara: funkcija kas min variantus un otra, kas parbauda vai variants derees
+    saraksts_ar_indexuSecibuNoLielakaUzMazako = []
+    for g in sorted_dict:
+        saraksts_ar_indexuSecibuNoLielakaUzMazako.append(g)
+
+    # for p in range(len(saraksts_ar_indexuSecibuNoLielakaUzMazako)):
+        # minama_seciba = ""
+        # for q in visa_informacija[saraksts_ar_indexuSecibuNoLielakaUzMazako[p]]:
+        # print(f"q == {q}")
+        # if q == "1" and visa_informacija[saraksts_ar_indexuSecibuNoLielakaUzMazako[p + 1]][p] == "0":
+        # minama_seciba += f" {saraksts_ar_indexuSecibuNoLielakaUzMazako[p]} {saraksts_ar_indexuSecibuNoLielakaUzMazako[p + 1]}"
+        # print(f"minama_seciba ir {minama_seciba}")
+        # print(f"p ir {p}")
+    kombinacijas = []
+    for elements in saraksts_ar_indexuSecibuNoLielakaUzMazako:
+        for y in range(len(saraksts_ar_indexuSecibuNoLielakaUzMazako)):
+            kombinacijas.append(elements)
+    for w in kombinacijas:
+        x = 0
+        print(w)
+        while x < len(visa_informacija[w]):
+            print(visa_informacija[w][x])
+            if visa_informacija[w][x] == "1":
+                kombinacijas.remove(w)
+                kombinacijas.append(w + str(x))
+                x += 1
+            print(kombinacijas)
+
+
+def switch0to1and1to0(vieni_un_nulles):
+    dotais = []
+    gatavais = ""
+    for i in vieni_un_nulles:
+        dotais.append(i)
+    for j in dotais:
+        if j == "1":
+            gatavais += "0"
+        else:
+            gatavais += "1"
+    return gatavais
+
+
+ievade(ievades_piemers)
